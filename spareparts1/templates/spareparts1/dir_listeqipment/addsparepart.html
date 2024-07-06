@@ -1,0 +1,121 @@
+            <table>
+
+                <tr align="center">
+                    <h2>Добавить запчасть к оборудованию</h2>
+                </tr>
+                <tr align="center">
+                    <td class="col20">Наименование</td>
+                    <td class="col20">Тип</td>
+                    <td class="col20">Производитель</td>                    
+                    <td class="col8">SAP код 1</td>
+                    <td class="col8">SAP код 2</td>
+                    <td class="col8">SAP код аналог</td>
+                    <td></td>
+                    <td class="col4">Критичность</td>
+                    <td class="col4">Мин</td>
+                    <td class="col4">Макс</td>
+                    <td class="col4">Всего</td>
+                </tr>
+                <tr>
+                    <td><input type="search" id="spare_part_name_post" name="spare_part_name_post" class="search" onkeyup="findstart(id);"></td>
+                    <td><input type="search" id="type_part_post" name="type_part_post" class="search" onkeyup="findstart(id);"></td>
+                    <td><input type="search" id="manufacturer_post" name="manufacturer_post"  class="search" onkeyup="findstart(id);"></td>                           
+                    <td><input type="search" id="sap_Code1_post" name="sap_Code1_post" class="search" onkeyup="findstart(id);"></td>
+                    <td><input type="search" id="sap_Code2_post" name="sap_Code2_post" class="search" onkeyup="findstart(id);"></td>
+                    <td><input type="search" id="sap_analog_post" name="sap_analog_post" class="search" onkeyup="findstart(id);"></td>
+                    <td><input type="text" size="10" value="{{editing}}"  name="editing"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% for Spare_part in list_spare_parts %}
+                <tr>
+                    
+                    <td>{{Spare_part.spare_part_name}}</td>
+                    <td>{{Spare_part.type_part}}</td>
+                    <td>{{Spare_part.manufacturer}}</td>                    
+                    <td>{{Spare_part.sap_Code1}}</td>
+                    <td>{{Spare_part.sap_Code2}}</td>
+                    <td>{{Spare_part.sap_analog}}</td>
+                    <td><button type="button" name="tosave" onclick="AddSparePartToBE({{editing}},{{Spare_part.id}})"; id="{{Spare_part.id}}addtobe">Добавить запчасть на оборудование</button></td>
+                    <td><input type="number" id="{{Spare_part.id}}criticality_edit" name="{{Spare_part.id}}criticality_edit" autocomplete="off"></td>
+                    <td><input type="number" id="{{Spare_part.id}}min_count_edit" name="{{Spare_part.id}}min_count_edit" autocomplete="off"></td>
+                    <td><input type="number" id="{{Spare_part.id}}max_count_edit" name="{{Spare_part.id}}max_count_edit" autocomplete="off"></td>
+                    <td><input type="number" id="{{Spare_part.id}}in_node_count" name="{{Spare_part.id}}in_node_count" autocomplete="off"></td>
+                    
+                </tr>
+                {% endfor %}
+            </table>
+
+<script language="javascript" type="text/javascript">
+
+function findstart(id) {
+    lastfocus=id;
+    var date = new Date();
+    initial_time = date.getTime();
+    if (typeof setInverval_Variable == 'undefined') {
+            setInverval_Variable = setInterval(DelayedSubmission_Check, 50);
+    } 
+}
+function DelayedSubmission_Check() {
+    var date = new Date();   
+    check_time = date.getTime();
+    var limit_ms=check_time-initial_time;
+    if (limit_ms > 1500) { //Change value in milliseconds
+        $.ajax({
+            type: "POST",
+            url: "../addsparepart/",
+            data: {
+                'spare_part_name_post' : $('#spare_part_name_post').val(),
+                'type_part_post' : $('#type_part_post').val(),
+                'manufacturer_post' : $('#manufacturer_post').val(),
+                'sap_Code1_post' : $('#sap_Code1_post').val(), 
+                'sap_Code2_post' : $('#sap_Code2_post').val(), 
+                'sap_analog_post' : $('#sap_analog_post').val(),
+                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+                'editing':$('#editing').val(),
+                'aaa':2
+            },
+            success: AddSparePartMenu,
+        });
+        clearInterval(setInverval_Variable);
+        delete setInverval_Variable; 
+    }
+}
+
+function AddSparePartMenu(data, textStatus, jqXHR)
+{
+    $('#AddSparePartMenu').html(data)
+
+    document.getElementById('type_part_post').focus();
+}
+
+function AddSparePartToBE(key_eq, key_sp){
+    criticality_post=document.getElementById(key_sp+'criticality_edit').value;
+    min_count_post=document.getElementById(key_sp+'min_count_edit').value;
+    max_count_post=document.getElementById(key_sp+'max_count_edit').value;
+    in_node_count=document.getElementById(key_sp+'in_node_count').value;
+            $.ajax({
+            type: "POST",
+            url: "../addsptoeq/",
+            data: {
+                'hfilter_specialty' : $('#hfilter_specialty').val(),
+                'hfilter_work_process' : $('#hfilter_work_process').val(),
+                'hfilter_model_equipment' : $('#hfilter_model_equipment').val(),
+                'key_eq_post' : key_eq,
+                'key_sp_post' : key_sp,
+                'criticality_post' : criticality_post,
+                'min_count_post' : min_count_post, 
+                'max_count_post' : max_count_post,
+                'in_node_count' : in_node_count,
+                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+                'aaa':3
+                
+            },
+            
+        });
+}
+
+
+</script>

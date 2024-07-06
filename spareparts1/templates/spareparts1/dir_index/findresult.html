@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2 align="center">Результаты SAP</h2>
+<table border="1" width="100%">
+    <tr>
+        <td>SAP код</td>
+        <td>Наименование</td>
+        <td>Склад</td>
+        <td>Место</td>
+        <td>Количество</td>
+        <td>Единица изм</td>
+        <td>Стоимость за единицу</td>
+        <td>Валюта</td> 
+    </tr>
+    {% for Sup_emul in sap_emul_list %}
+    <tr>
+        <td><a href="">{{Sup_emul.sap_code}}</a></td>
+        <td><a href="">{{Sup_emul.sap_name}}</a></td>
+        <td><a href="">{{Sup_emul.sap_warehouse}}</a></td>
+        <td><a href="">{{Sup_emul.sap_end_point}}</a></td>
+        <td><a href="">{{Sup_emul.sap_count}}</a></td>
+        <td><a href="">{{Sup_emul.sap_unit}}</a></td>
+        <td><a href="">{{Sup_emul.sap_price}}</a></td>
+        <td><a href="">{{Sup_emul.sap_currency}}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

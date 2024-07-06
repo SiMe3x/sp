@@ -1,0 +1,30 @@
+
+<tr  bgcolor="#000000" >
+<td class="col20-1">Специальность</td>
+<td class="col20-1">Процесс</td>
+<td class="col20-1">Модель</td>
+<td class="col20-1">Узел</td>
+<td class="col8-1" >Критичность</td>
+<td class="col8-1" >Вероятность поломки</td>
+<td class="col8-1" title="Желаемое минимальное количество на &#013; складе для всех единиц оборудования данного типа">min</td>
+<td class="col8-1" title="Желаемое максимальое количество на &#013; складе для всех единиц оборудования данного типа">max</td>
+<td class="col14-1" title="Количество на узле">всего на узле</td>
+
+</tr>
+
+{% for Belonging_equipment in list_spare_parts%}
+<tr >
+<td class="col20-2">{{Belonging_equipment.belonging_equipment_key_equipment.specialty}}</td>
+<td class="col20-2">{{Belonging_equipment.belonging_equipment_key_equipment.work_process}}</td>
+<td class="col20-2">{{Belonging_equipment.belonging_equipment_key_equipment.model_equipment}}</td>
+<td class="col20-2">{{Belonging_equipment.belonging_equipment_key_equipment.node_equipment}}</td>
+<td class="col8-2">{{Belonging_equipment.criticality}}</td>
+<td class="col8-2">{{Belonging_equipment.criticality}}</td>
+<td class="col8-2">{{Belonging_equipment.min_count}}</td>
+<td class="col8-2">{{Belonging_equipment.max_count}}</td>
+<td class="col8-2">{{Belonging_equipment.in_node_count}}</td>
+
+
+</tr>
+{% endfor %} 
+

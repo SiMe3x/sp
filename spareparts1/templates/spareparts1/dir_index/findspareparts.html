@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+{% load static %}
+
+
+
+<html>
+<body>
+
+
+
+
+
+
+<table>
+    <thead>
+        <tr align="center">
+            <td class="col8">Специальность</td>
+            <td class="col8">Процесс</td>
+            <td class="col8">Модель</td>
+            <td class="col8">Узел</td>
+            <td class="col20">Наименование</td>
+            <td class="col20">Тип</td>
+            <td class="col20">Производитель</td>
+            <td class="col4" style="font-size: 8px;">Критичность</td>
+            <td class="col8" style="font-size: 10px;">SAP код 1</td>
+            <td class="col8" style="font-size: 10px;">SAP код 2</td>
+            <td class="col8" style="font-size: 10px;">SAP код аналог</td>
+
+        </tr>
+        <tr align="center">       
+                <td><input type="search" size="10" id="cell_post01" name="specialty_post"  onkeyup="findtest(id);" ></td>
+                <td><input type="search" size="10" id="cell_post02" name="work_process_post" onkeyup="findtest(id);" ></td>
+                <td><input type="search" size="10" id="cell_post03" name="model_equipment_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" size="10" id="cell_post04" name="node_equipment_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" size="10" id="cell_post05" name="spare_part_name_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" size="10" id="cell_post06" name="type_part_post" size="1" onkeyup="findtest(id);" ></td>
+                <td><input type="search" size="10" id="cell_post07" name="manufacturer_post" size="1" class="search" onkeyup="findtest(id);"></td>
+                <td><input type="search" id="cell_post08" name="criticality_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" size="5" id="cell_post09" name="sap_Code1_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" size="5" id="cell_post10" name="sap_Code2_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" size="5" id="cell_post11" name="sap_analog_post" onkeyup="findtest(id);"></td>
+                <input type="search" size="10" id="cell_post12" name="min_count_post" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post13" name="max_count_post" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post14" name="for_order_post" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post15" name="reserved15" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post16" name="reserved16" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post17" name="reserved17" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post18" name="reserved18" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post19" name="reserved19" onkeyup="findtest(id);" hidden>
+                <input type="search" size="10" id="cell_post20" name="reserved20" onkeyup="findtest(id);" hidden>
+        </tr>
+    </thead>    
+
+
+
+ 
+{% for Belonging_equipment in belonging_equipment_list %}
+    <tr>
+        <input type="text" size="10" value="{{Belonging_equipment.id}}"  name="Belonging_equipment_id_edit" hidden>  
+        <input type="text" size="10" value="{{Belonging_equipment.belonging_equipment_key_spareparts.id}}"   name="belonging_equipment_key_spareparts_id_edit" hidden>
+        <input type="text" size="10" value="{{Belonging_equipment.belonging_equipment_key_equipment.id}}"   name="belonging_equipment_key_equipment_id_edit" hidden>      
+        <input type="text" size="10" value="0" readonly id="btn_action"  name="btn_action" hidden> 
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_equipment.specialty}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_equipment.work_process}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_equipment.model_equipment}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_equipment.node_equipment}}</div></td>
+
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_spareparts.spare_part_name}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_spareparts.type_part}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_spareparts.manufacturer}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_spareparts.criticality}}</div></td>
+
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_spareparts.sap_Code1}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_spareparts.sap_Code2}}</div></td>
+        <td><div id="{{Belonging_equipment.id}}">{{Belonging_equipment.belonging_equipment_key_spareparts.sap_analog}}</div></td>
+    </tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<script language="javascript" type="text/javascript">
+
+var btn_action = 5, active_edit=0;
+var lastfocus;
+
+function TestConnect(){
+    alert("testconnection")
+    }
+TestConnect();
+function FormEditing(BelongingEquipmentID) {
+    document.getElementById('qweqwe').value=BelongingEquipmentID
+
+    //alert(BelongingEquipmentID )
+}
+
+function FormSave(BelongingEquipmentID) {
+    alert(BelongingEquipmentID);    
+//    $.ajax({
+//        type: "POST",
+//        url: "beedit/",
+//        data: {
+//            'Belonging_equipment_id_edit' : $('#Belonging_equipment_id_edit').val(),'belonging_equipment_key_spareparts_id_edit' : $('#belonging_equipment_key_spareparts_id_edit').val(),
+//            'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+//        },
+//        success: FindResultSearchSuccess,    
+}
+
+function findtest(id) {
+    lastfocus=id;
+    var date = new Date();
+    initial_time = date.getTime();
+    if (typeof setInverval_Variable == 'undefined') {
+            setInverval_Variable = setInterval(DelayedSubmission_Check, 50);
+    } 
+}
+function DelayedSubmission_Check() {
+    var date = new Date();   
+    check_time = date.getTime();
+    var limit_ms=check_time-initial_time;
+    if (limit_ms > 500) { //Change value in milliseconds
+        alert(document.getElementById('cell_post01').value);
+        document.getElementById('cell1_post01').value=document.getElementById('cell_post01').value;
+        document.getElementById('cell1_post02').value=document.getElementById('cell_post02').value;
+        document.getElementById('cell1_post03').value=document.getElementById('cell_post03').value;
+        document.getElementById('cell1_post04').value=document.getElementById('cell_post04').value;
+        document.getElementById('cell1_post05').value=document.getElementById('cell_post05').value;
+        document.getElementById('cell1_post06').value=document.getElementById('cell_post06').value;
+        document.getElementById('cell1_post07').value=document.getElementById('cell_post07').value;
+        document.getElementById('cell1_post08').value=document.getElementById('cell_post08').value;
+        document.getElementById('cell1_post09').value=document.getElementById('cell_post09').value;
+        document.getElementById('cell1_post10').value=document.getElementById('cell_post10').value;
+        document.getElementById('cell1_post11').value=document.getElementById('cell_post11').value;
+        document.getElementById('cell1_post12').value=document.getElementById('cell_post12').value;
+        document.getElementById('cell1_post13').value=document.getElementById('cell_post13').value;
+        document.getElementById('cell1_post14').value=document.getElementById('cell_post14').value;
+        document.getElementById('cell1_post15').value=document.getElementById('cell_post15').value;
+        document.getElementById('cell1_post16').value=document.getElementById('cell_post16').value;
+        document.getElementById('cell1_post17').value=document.getElementById('cell_post17').value;
+        document.getElementById('cell1_post18').value=document.getElementById('cell_post18').value;
+        document.getElementById('cell1_post19').value=document.getElementById('cell_post19').value;
+        document.getElementById('cell1_post20').value=document.getElementById('cell_post20').value;
+
+
+        $.ajax({
+            type: "POST",
+            url: "findresult/",
+            data: {
+                'specialty_post' : $('#cell_post01').val(),
+                'work_process_post' : $('#cell_post02').val(),
+                'model_equipment_post' : $('#cell_post03').val(),
+                'node_equipment_post' : $('#cell_post04').val(),
+                'spare_part_name_post' : $('#cell_post05').val(),
+                'type_part_post' : $('#cell_post06').val(),
+                'manufacturer_post' : $('#cell_post07').val(),
+                'criticality_post' : $('#cell_post08').val(),
+                'sap_Code1_post' : $('#cell_post09').val(),
+                'sap_Code2_post' : $('#cell_post10').val(),
+                'sap_analog_post' : $('#cell_post11').val(),
+                'min_count_post' : $('#cell_post12').val(),
+                'max_count_post' : $('#cell_post13').val(),
+                'for_order_post' : $('#cell_post14').val(),
+                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: FindResultSearchSuccess,
+
+        });
+        $.ajax({
+            type: "POST",
+            url: "findspareparts/",
+            data: {
+                'specialty_post' : $('#cell_post01').val(),
+                'work_process_post' : $('#cell_post02').val(),
+                'model_equipment_post' : $('#cell_post03').val(),
+                'node_equipment_post' : $('#cell_post04').val(),
+                'spare_part_name_post' : $('#cell_post05').val(),
+                'type_part_post' : $('#cell_post06').val(),
+                'manufacturer_post' : $('#cell_post07').val(),
+                'criticality_post' : $('#cell_post08').val(),
+                'sap_Code1_post' : $('#cell_post09').val(),
+                'sap_Code2_post' : $('#cell_post10').val(),
+                'sap_analog_post' : $('#cell_post11').val(),
+                'min_count_post' : $('#cell_post12').val(),
+                'max_count_post' : $('#cell_post13').val(),
+                'for_order_post' : $('#cell_post14').val(),
+                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: FindSparePartsSearchSuccess,
+        });
+        clearInterval(setInverval_Variable);
+        delete setInverval_Variable;        
+    }
+}
+function FindResultSearchSuccess(data, textStatus, jqXHR)
+{
+    $('#FindResultSearch-results').html(data)
+}
+function FindSparePartsSearchSuccess(data, textStatus, jqXHR)
+{
+    $('#FindSparePartsSearch-results').html(data)
+    document.getElementById(lastfocus).focus();
+}
+
+
+document.getElementById('cell_post01').value=document.getElementById('cell1_post01').value;
+document.getElementById('cell_post02').value=document.getElementById('cell1_post02').value;
+document.getElementById('cell_post03').value=document.getElementById('cell1_post03').value;
+document.getElementById('cell_post04').value=document.getElementById('cell1_post04').value;
+document.getElementById('cell_post05').value=document.getElementById('cell1_post05').value;
+document.getElementById('cell_post06').value=document.getElementById('cell1_post06').value;
+document.getElementById('cell_post07').value=document.getElementById('cell1_post07').value;
+document.getElementById('cell_post08').value=document.getElementById('cell1_post08').value;
+document.getElementById('cell_post09').value=document.getElementById('cell1_post09').value;
+document.getElementById('cell_post10').value=document.getElementById('cell1_post10').value;
+document.getElementById('cell_post11').value=document.getElementById('cell1_post11').value;
+document.getElementById('cell_post12').value=document.getElementById('cell1_post12').value;
+document.getElementById('cell_post13').value=document.getElementById('cell1_post13').value;
+document.getElementById('cell_post14').value=document.getElementById('cell1_post14').value;
+document.getElementById('cell_post15').value=document.getElementById('cell1_post15').value;
+document.getElementById('cell_post16').value=document.getElementById('cell1_post16').value;
+document.getElementById('cell_post17').value=document.getElementById('cell1_post17').value;
+document.getElementById('cell_post18').value=document.getElementById('cell1_post18').value;
+document.getElementById('cell_post19').value=document.getElementById('cell1_post19').value;
+document.getElementById('cell_post20').value=document.getElementById('cell1_post20').value;
+
+
+
+
+function ShowID(dataaa) {
+    window.btn_action=dataaa
+    $.ajax({
+    type: "POST",
+    url: "beedit/",
+    async: false,
+    data: {
+        'form_save' : dataaa,
+        'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+    },
+    success: FormSaveData,
+    });  
+
+
+function FormSaveData(data, textStatus, jqXHR)
+{
+    $('#FormSaveData-results').html(data)
+    
+    
+}
+
+
+}
+
+function FormEditable(){
+    //alert(BtnID);  
+    if(document.getElementById("BtnEdit").value == 'Intset Border'){
+      //  alert(document.getElementById('BtnEdit').style); 
+        document.getElementById("BtnEdit").value = 'Outset Border';
+        document.getElementById("BtnEdit").style = 'border-style:outset;';
+    }
+    else {
+     //   alert(document.getElementById('BtnEdit').style); 
+        document.getElementById("BtnEdit").value = 'Intset Border';
+        document.getElementById("BtnEdit").style = 'border-style:inset;';
+    }
+}
+
+</script>
+</body>
+</html>

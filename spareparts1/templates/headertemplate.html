@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  {% load static %}
+  <meta charset="utf-8" />
+  <title>{{spare_part_name_id}}</title>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  	<script src="https://code.jquery.com/jquery-3.6.0.js"  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="  crossorigin="anonymous"></script>
+  
+  <style>
+   article, aside, details, figcaption, figure, footer,header,
+   hgroup, menu, nav, section { display: block; }
+
+ul {  
+  margin: 0; /*убираем отступы*/
+  padding-left: 0; /*убираем отступы*/
+}
+
+a {
+  text-decoration: none; /*убираем подчеркивание текста ссылок*/
+  color: #0000ff;
+}
+
+li{
+float:left; /*Размещаем список горизонтально для реализации меню*/
+margin-right:50px; /*Добавляем отступ у пунктов меню*/
+}
+
+:root {
+  --border-width: 1px;
+  --border-color: #CED4DA;
+  --border: var(--border-width) solid var(--border-color);
+}
+
+/* Sticky header */
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-style: none;
+  border-collapse: collapse;
+  
+}
+   .col2 { width: 2px; writing-mode: tb-rl;}
+   .col4 { width: 4px; writing-mode: tb-rl;}
+   .col4-1 { width: 4px; writing-mode: tb-rl; background-color: #F0D698;}
+   .col4-2 { width: 4px; writing-mode: tb-rl; background-color: #ECEBBD;}
+   .col8 { width: 8px;}   
+   .col8-1 { width: 8px; background-color: #F0D698;}
+   .col8-2 { width: 8px; background-color: #ECEBBD;}   
+   .col14 { width: 14px; }
+   .col15 { width: 15px;}   
+   .col14-1{ width: 14px; background-color: #F0D698;}
+   .col14-2{ width: 14px; background-color: #ECEBBD;}
+   .col20 { width: 20px; }
+   .col20-1 { width: 20px; background-color: #F0D698;}
+   .col20-2 { width: 20px; background-color: #ECEBBD;}   
+   .col30 { width: 30px; }
+   .testtt { width: 2px; background-color: #ffffff;}   
+   
+   /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+thead {
+  background-color: #F5F5F5;
+  position: sticky;
+  top: var(--border-width); /* 2 */
+  font-size: 12px;
+}
+
+th, tr {
+  font-size: 10px;  
+  font-weight: normal;
+  outline: var(--border); /* 3 */
+  padding: 0px 0px;
+  border: 0px;
+  text-align: left;
+  background-color: #dddddd;
+
+
+}
+
+
+
+
+/* Нечетные строки */
+table tbody tr:nth-child(odd){
+  background-color: #cccccc;
+  white-space:nowrap;
+}
+ 
+/* Четные строки */
+table tbody tr:nth-child(even){
+  background-color: #dddddd;
+  white-space:nowrap;
+}
+
+/* Other styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  margin: 0;
+  background-color: #e0e0e0;
+}
+
+input {
+  width: 100%;
+  height: 100%;
+  padding: 0px 0px;
+
+}
+
+  </style>
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>  
+ </head>
+ <body>
+
+<ul>
+<li><a href="/spareparts1/">Поиск запасных частей</a></li>
+<li><a href="/spareparts1/listspareparts/">Список запчастей</a></li>
+
+<li><a href="/spareparts1/for_moderation/">На модерации</a></li>
+<li><a href="/spareparts1/listequipment/">Список оборудования</a></li>
+<li><a href="/spareparts1/categories/">Категории оборудования</a></li>
+<li>
+    {% if request.user.is_authenticated %}
+      Вы вошли как 
+      <a href="/spareparts1/user_login/">      
+        {{ user.get_username }}
+      </a>
+      {% else %}
+      <a href="/spareparts1/user_login/">
+        Войти
+        {{ user.get_username }}
+      </a>
+    {% endif %}
+</li>
+
+
+</ul>
+<br>
+
+ {% block content %}
+
+ {% endblock %}
+
+            <input type="text" name="1" size="5" hidden="true">
+            <td><input type="search" size="10" id="cell1_post01" name="specialty_post" hidden="true"></td>
+            <td><input type="search" size="10" id="cell1_post02" name="work_process_post" hidden="true" ></td>
+            <td><input type="search" size="10" id="cell1_post03" name="model_equipment_post" hidden="true"></td>
+            <td><input type="search" size="10" id="cell1_post04" name="node_equipment_post" hidden="true"></td>
+            <td><input type="search" size="10" id="cell1_post05" name="spare_part_name_post" hidden="true"></td>
+            <td><input type="search" size="10" id="cell1_post06" name="type_part_post" size="1" hidden="true" ></td>
+            <td><input type="search" size="10" id="cell1_post07" name="manufacturer_post" size="1" class="search" hidden="true"></td>
+            <td><input type="search" id="cell1_post08" name="criticality_post" hidden="true"></td>
+            <td><input type="search" size="5" id="cell1_post09" name="sap_Code1_post" hidden="true"></td>
+            <td><input type="search" size="5" id="cell1_post10" name="sap_Code2_post" hidden="true"></td>
+            <td><input type="search" size="5" id="cell1_post11" name="sap_analog_post" hidden="true"></td>
+            <input type="search" size="10" id="cell1_post12" name="min_count_post" hidden="true" >
+            <input type="search" size="10" id="cell1_post13" name="max_count_post" hidden="true" >
+            <input type="search" size="10" id="cell1_post14" name="for_order_post" hidden="true" >
+            <input type="search" size="10" id="cell1_post15" name="reserved15" hidden="true" >
+            <input type="search" size="10" id="cell1_post16" name="reserved16" hidden="true" >
+            <input type="search" size="10" id="cell1_post17" name="reserved17" hidden="true" >
+            <input type="search" size="10" id="cell1_post18" name="reserved18" hidden="true" >
+            <input type="search" size="10" id="cell1_post19" name="reserved19" hidden="true" >
+            <input type="search" size="10" id="cell1_post20" name="reserved20" hidden="true" >
+
+ </body>
+</html>
+<script language="javascript" type="text/javascript">
+success: TestConnect();
+</script>

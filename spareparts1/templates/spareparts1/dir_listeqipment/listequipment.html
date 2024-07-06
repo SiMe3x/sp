@@ -1,0 +1,319 @@
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+<h1 align="center">Список оборудования</h1>
+
+
+
+
+<form id="ListEquipment" action="{% url 'listequipment' %}" method="POST" name="ListEquipment">
+    {% csrf_token %}
+
+<table border="1" width="100%" table-layout= "fixed">
+    <tr align="left">
+
+        <td width=25%><input type="text" size="5" value="Специальность" readonly></td>
+        <td width=25%><input type="text" size="5" value="Процесс" readonly></td>
+        <td width=25%><input type="text" size="5" value="Модель" readonly></td>
+        <td width=25%><input type="text" size="5" value="Узел" readonly></td>
+
+
+    </tr>
+    <tr align="left">      
+       <td>
+            <style>
+                select {
+                    width: 400px; /* Ширина списка в пикселах */
+                }
+            </style>
+
+            <select size="10" , name="filter_specialty" onchange="submit();" >
+                
+                {% for Equipment in list_specialty %}
+                    {% if case_specialty == Equipment.specialty %} 
+                        
+                        <option selected value="{{Equipment.specialty}}">{{Equipment.specialty}} </option>
+                    {% else %}
+                        
+                        <option value="{{Equipment.specialty}}">{{Equipment.specialty}} </option>                         
+                    {% endif %}                    
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select  size="10" name="filter_work_process" onchange="submit();">
+                
+
+                {% for Equipment in list_work_process %}
+                    {% if case_work_process == Equipment.work_process %} 
+                        
+                        <option selected value="{{Equipment.work_process}}">{{Equipment.work_process}}</option>
+                    {% else %}
+                    
+                        <option value="{{Equipment.work_process}}">{{Equipment.work_process}}</option>                         
+                    {% endif %}                    
+                {% endfor %}       
+            </select>
+        </td>
+        <td>
+            <select  size="10" name="filter_model_equipment" onchange="submit();">
+                
+                {% for Equipment in list_model_equipment %}
+                    {% if case_model_equipment == Equipment.model_equipment %} 
+                        <option selected value="{{Equipment.model_equipment}}">{{Equipment.model_equipment}} </option>
+                    {% else %}
+                        <option value="{{Equipment.model_equipment}}">{{Equipment.model_equipment}} </option>
+                    {% endif %}                    
+                {% endfor %}       
+            </select>
+        </td>
+        <td>
+            <select  size="10" name="filter_node_equipment" onchange="submit();">
+
+                
+                {% for Equipment in list_node_equipment %}
+                    {% if case_node_equipment == Equipment.node_equipment %} 
+                        <option selected value="{{Equipment.node_equipment}}">{{Equipment.node_equipment}} </option>
+                    {% else %}
+                        <option value="{{Equipment.node_equipment}}">{{Equipment.node_equipment}} </option>
+                    {% endif %}  
+                             
+                {% endfor %}       
+            </select>            
+        </td> 
+    </tr>
+    <input type="text" size="10" id="who_creat_add" name="who_creat_add" value="{{ user.get_username }}" hidden>
+</table>
+</form>
+<form action="{% url 'addequipment' %}" method="POST" name="wwww" target="_blank">
+{% csrf_token %}
+<table>
+    <tr>
+        <input type="text" size="5" name="hediting" id="hediting" value="{{editing}}" hidden>
+        <input type="text" size="5" name="hfilter_specialty" id="hfilter_specialty" value="{{case_specialty}}"hidden>
+        <input type="text" size="5" name="hfilter_work_process" id="hfilter_work_process" value="{{case_work_process}}"hidden>
+        <input type="text" name="hfilter_model_equipment" id="hfilter_model_equipment" value="{{case_model_equipment}}"hidden>
+        <input type="text" name="hfilter_node_equipment" id="hfilter_node_equipment" value="{{case_node_equipment}}"hidden>
+        <input type="text" size="5" name="editing" id="editing" value="{{editing}}" hidden>
+
+                {%if active_user_permis > 19 %}
+                    <td width="5"><input type="text" size="5" name="filter_specialty" id="filter_specialty" value="{{case_specialty}}"></td>
+                    <td width="5"><input type="text" size="5" name="filter_work_process" id="filter_work_process" value="{{case_work_process}}"></td>
+                    <td width="5"><input type="text" name="filter_model_equipment" id="filter_model_equipment" value="{{case_model_equipment}}"></td>
+                    <td width="5"><input type="text" name="filter_node_equipment" id="filter_node_equipment" value="{{case_node_equipment}}"></td>
+                    <td width="6" align="right">Единиц оборудования</td>
+                    <td width="1"><input type="text" name="filter_count_model_equipment" id="filter_count_model_equipment" value="{{count_model_equipment}}"></td>
+                    <td width="10"><button type="button" id="BtnAdd" onclick="AddEquipment('1');">добавить оборудование</button></td>
+                    <td width="10"><button type="button" id="BtnEdit" onclick="AddEquipment('2');">изменить оборудование</button></td>
+                    <td width="10"><button type="button" id="BtnRemove" onclick="AddEquipment('3');">удалить оборудование</button></td>
+                    <td width="30">Категория оборудования {{category}}  </td>
+                {% elif active_user_permis > 9 %}
+                    <td width="5"><input type="text" size="5" name="filter_specialty" id="filter_specialty" value="{{case_specialty}}" disabled></td>
+                    <td width="5"><input type="text" size="5" name="filter_work_process" id="filter_work_process" value="{{case_work_process}}" disabled></td>
+                    <td width="5"><input type="text" name="filter_model_equipment" id="filter_model_equipment" value="{{case_model_equipment}}" disabled></td>
+                    <td width="5"><input type="text" name="filter_node_equipment" id="filter_node_equipment" value="{{case_node_equipment}}" disabled></td>
+                    <td width="6" align="right">Единиц оборудования</td>
+                    <td width="1"><input type="text" name="filter_count_model_equipment" id="filter_count_model_equipment" value="{{count_model_equipment}}" disabled></td>
+                    <td width="30">Категория оборудования {{category}}  </td>
+                {% else %}
+                    <td width="5"><input type="text" size="5" name="filter_specialty" id="filter_specialty" value="{{case_specialty}}" disabled></td>
+                    <td width="5"><input type="text" size="5" name="filter_work_process" id="filter_work_process" value="{{case_work_process}}" disabled></td>
+                    <td width="5"><input type="text" name="filter_model_equipment" id="filter_model_equipment" value="{{case_model_equipment}}" disabled></td>
+                    <td width="5"><input type="text" name="filter_node_equipment" id="filter_node_equipment" value="{{case_node_equipment}}" disabled></td>
+                    <td width="6" align="right">Единиц оборудования</td>
+                    <td width="1"><input type="text" name="filter_count_model_equipment" id="filter_count_model_equipment" value="{{count_model_equipment}}" disabled></td>
+                    <td width="30">Категория оборудования {{category}}  </td>
+                {% endif %}
+
+
+
+    </tr>
+</table>
+</form>  
+
+            <table>
+                <thead>    
+                    <tr>
+                        <td width="5">Наименование</td>
+                        <td width="5">Тип</td>
+                        <td width="5">Производитель</td>
+                        <td width="5">sap_Code1</td>
+                        <td width="5">sap_Code2</td>
+                        <td width="5">sap_analog</td>
+                        <td width="5">Критичность</td>
+                        <td width="5">Вероятность поломки</td>
+                        <td width="2" title="Желаемое минимальное количество на &#013; складе для всех единиц оборудования данного типа">min</td>
+                        <td width="2" title="Желаемое максимальое количество на &#013; складе для всех единиц оборудования данного типа">max</td>
+                        <td width="2" title="Количество на всём оборудовании">всего</td>
+                        <td width="5"></td>
+
+                    </tr>
+                </thead>
+            {% for Belonging_equipment in list_spare_parts%}
+            
+            <tr id="{{Belonging_equipment.id}}string">
+                <td width="5">{{Belonging_equipment.belonging_equipment_key_spareparts.spare_part_name}}</td>
+                
+                <td width="5">{{Belonging_equipment.belonging_equipment_key_spareparts.type_part}}</td>
+                <td width="5">{{Belonging_equipment.belonging_equipment_key_spareparts.manufacturer}}</td>
+                <td width="5">{{Belonging_equipment.belonging_equipment_key_spareparts.sap_Code1}}</td>
+                <td width="5">{{Belonging_equipment.belonging_equipment_key_spareparts.sap_Code2}}</td>
+                <td width="5">{{Belonging_equipment.belonging_equipment_key_spareparts.sap_analog}}</td>
+                    {% if Belonging_equipment.belonging_equipment_key_equipment.start_index != True  %}                
+                        <td width="5"><input type="number" size="5" name="editing" id="{{Belonging_equipment.id}}criticality" value="{{Belonging_equipment.criticality}}"></td>
+                        <td width="5"><input type="number" size="5" name="editing" id="{{Belonging_equipment.id}}ver_polomki" value="{{Belonging_equipment.criticality}}"></td>
+                        <td width="5"><input type="number" size="5" name="editing" id="{{Belonging_equipment.id}}min_count" value="{{Belonging_equipment.min_count}}"></td>
+                        <td width="5"><input type="number" size="5" name="editing" id="{{Belonging_equipment.id}}max_count" value="{{Belonging_equipment.max_count}}"></td>
+                        <td width="5"><input type="number" size="5" name="editing" id="{{Belonging_equipment.id}}in_node_count" value="{{Belonging_equipment.in_node_count}}"></td>
+                        <td width="1">
+                            {% for group in user.groups.all %}
+                                {{request.user.is_authenticated}}
+                                    {% if group.name == 'Tech' %}
+                                        <button type="button" name="tosave" onclick="AddBE('1',{{Belonging_equipment.id}});" id="{{Belonging_equipment.id}}save">save</button>
+                                        <button type="button" name="todelete" onclick="AddBE('2',{{Belonging_equipment.id}});" id="{{Belonging_equipment.id}}delete">delete</button>
+                                    {% endif %}
+                                {% endfor %}
+                    {% else %}
+                        <td width="5">{{Belonging_equipment.criticality}}</td>
+                        <td width="5">{{Belonging_equipment.min_count}}</td>
+                        <td width="5">{{Belonging_equipment.max_count}}</td>
+                        <td width="5">{{Belonging_equipment.in_node_count}}</td>
+                        <td width="1">                    
+                    {% endif %}
+                <button type="button" name="detales" onclick="Detales({{Belonging_equipment.id}});" id="{{Belonging_equipment.id}}detales">detales</button>
+                </td>            
+            </tr>
+            <tr>
+                <td colspan="11">
+                    <div id="{{Belonging_equipment.id}}DetalesBESearch-results"></div>
+                </td>
+            </tr>
+
+            
+            {% endfor %} 
+
+            </table>
+            <br><br><br>
+            {% if start_index != True %} 
+                <button type="button" name="tosave" onclick="AddSparePart({{editing}},'1')"; id="{{Belonging_equipment.id}}delete">Добавить запчасть на оборудование</button>
+            {% endif %}
+            <button type="button" name="tosave" onclick="testingconnectpage()"; id="testingconnectpage">testingconnectpage</button>
+<div id="AddSparePartMenu"></div>
+
+<script language="javascript" type="text/javascript">
+var a;
+    function testingconnectpage(){
+        alert("connect")
+    }
+    function Detales(BEid) {
+        a=BEid;        
+        $.ajax({
+            type: "POST",
+            url: "../detalesbe/",
+            data: {
+                'BEid' : BEid,'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: DetalesBE,
+        });
+    }
+    function DetalesBE(data, textStatus, jqXHR){
+        $('#'+a+'DetalesBESearch-results').html(data)
+    } 
+
+
+
+
+
+    function AddEquipment(actionnn) {  
+
+        $.ajax({
+            type: "POST",
+            url: "../addequipment/",
+            data: {
+                'filter_specialty' : $('#filter_specialty').val(),'filter_work_process' : $('#filter_work_process').val(),'filter_model_equipment' : $('#filter_model_equipment').val(),'filter_node_equipment' : $('#filter_node_equipment').val(), 'filter_count_model_equipment' : $('#filter_count_model_equipment').val(),'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(), 'actionnn': actionnn,'editing' : $('#editing').val()
+            },
+            success: AddingEquipment,
+        });
+    }
+    function AddingEquipment(data, textStatus, jqXHR){
+        $('#FindSparePartsSearch-results').html(data)
+        document.getElementById("ListEquipment").submit();
+    }
+
+    function AddBE(actionnn, BEid) {
+        alert("connect")
+        criticality=document.getElementById(BEid+'criticality').value;
+        min_count=document.getElementById(BEid+'min_count').value;
+        max_count=document.getElementById(BEid+'max_count').value;
+        in_node_count=document.getElementById(BEid+'in_node_count').value;
+        if (actionnn==2){
+            a=confirm("Подтвердите удаление");
+            if (a){
+                b=true
+                document.getElementById(BEid+'save').disabled = true;
+                document.getElementById(BEid+'delete').disabled = true;
+                document.getElementById(BEid+'detales').disabled = true;
+                document.getElementById(BEid+'string').style.color = "#fff";
+                document.getElementById(BEid+'criticality').style.color = "#fff";
+                document.getElementById(BEid+'min_count').style.color = "#fff";
+                document.getElementById(BEid+'max_count').style.color = "#fff";
+                
+                
+            }else{
+                b=false
+            }        
+        }   
+        if (actionnn==1 || b==true){
+            $.ajax({
+                type: "POST",
+                url: "../addbe/",
+                data: {
+                    'BEid' : BEid,'criticality' : criticality,'min_count' : min_count,'max_count' : max_count, 'in_node_count': in_node_count ,'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(), 'actionnn': actionnn
+                },
+                success: AddingBE,
+            });
+        }
+    }
+
+    function AddingBE(data, textStatus, jqXHR){
+        $('#FindSparePartsSearch-results').html(data)
+    }        
+    
+    function AddSparePart(editing, aaa) { 
+        if (editing>0){         
+            $.ajax({
+                type: "POST",
+                url: "../addsparepart/",
+                data: {
+                    'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+                    'editing' : $('#editing').val(),
+                    'aaa': aaa, 
+                    'spare_part_name_post':$('#spare_part_name_post').val(),
+                    'type_part_post':$('#type_part_post').val(),
+                    'manufacturer_post':$('#manufacturer_post').val(), 
+                    'sap_Code1_post':$('#sap_Code1_post').val(), 
+                    'sap_Code2_post':$('#sap_Code2_post').val(), 
+                    'sap_analog_post':$('#sap_analog_post').val()
+
+                },
+                success: AddingSparePart,
+            });
+        }
+    }
+    function AddingSparePart(data, textStatus, jqXHR){
+        $('#AddSparePartMenu').html(data)
+    }
+
+</script>
+
+
+
+
+
+
+<br><br><br>
+
+
+
+{{ user.get_username }}
+
+ {% endblock %}

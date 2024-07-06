@@ -1,0 +1,40 @@
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+<h1 align="center">Список запчастей</h1>
+<h4 align="=left"><a href="/spareparts1/listspareparts/add">добавить запчасть</a><h4>
+<h4>{{operation_status}}</h4>
+<form action="{% url 'listsparepartsadd' %}" method="POST" name="spare_part_add">
+    {% csrf_token %}
+<table border="1" width="100%" table-layout= "fixed">
+    <tr align="center">
+
+        <td class="col20-2">Наименование</td>
+        <td class="col20-2">Тип</td>
+        <td class="col20-2">Производитель</td>
+        <td class="col20-2">SAP код 1</td>
+        <td class="col20-2">SAP код 2</td>
+        <td class="col20-2">SAP код аналог</td>
+        <td class="col20-2">Срок поставки</td>
+
+    </tr>
+    <tr align="center" >
+            
+            <td><input type="text" name="actionsp" id="actionsp" value="addsp" hidden>
+                <input required type="text" size="1" id="spare_part_name_add" name="spare_part_name_add" value={{spare_part_name_add}} ></td>
+            <td class="col20-2"><input required type="text" size="1" id="type_part_add" name="type_part_add" value={{type_part_add}} ></td>
+            <td class="col20-2"><input required type="text" size="1" id="manufacturer_add" name="manufacturer_add" value={{manufacturer_add}}></td>
+            <td class="col20-2"><input required type="number" size="10" id="sap_Code1_add" name="sap_Code1_add" value={{sap_Code1_add}} ></td>
+            <td class="col20-2"><input type="number" size="10" id="sap_Code2_add" name="sap_Code2_add" value={{sap_Code2_add}}></td>
+            <td class="col20-2"><input type="number" size="10" id="sap_analog_add" name="sap_analog_add" value={{sap_analog_add}}></td>
+            <td class="col20-2"><input type="number" size="10" id="delivery_time_add" name="delivery_time_add" value={{delivery_time_add}}></td>
+
+
+    </tr>
+    <input type="text" size="10" id="who_creat_add" name="who_creat_add" value="{{ user.get_username }}" hidden>
+</table>
+<button type="submit">Send to moderate</button>
+</form>
+
+
+
+ {% endblock %}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="  crossorigin="anonymous"></script>
+<form action="{% url 'beedit' %}" method="POST" name="myformmm" id=myformmm>
+    {% csrf_token %}
+<table border="1" width="100%" table-layout= "fixed">
+    <tr align="center">
+        <td width="20"><input type="text" size="10" value="Специальность" readonly></td>
+        <td width="20"><input type="text" size="10" value="Процесс" readonly></td>
+        <td width="20"><input type="text" size="10" value="Модель" readonly></td>
+        <td width="20"><input type="text" size="10" value="Узел" readonly></td>
+        <td width="20"><input type="text" size="10" value="Наименование" readonly></td>
+        <td width="20"><input type="text" size="10" value="Тип" readonly></td>
+        <td width="20"><input type="text" size="10" value="Производитель" readonly></td>
+        <td width="20"><input type="text" size="10" value="Критичность" readonly></td>
+        <td width="20"><input type="text" size="10" value="SAP код 1" readonly></td>
+        <td width="20"><input type="text" size="10" value="SAP код 2" readonly></td>
+        <td width="20"><input type="text" size="10" value="SAP код аналог" readonly></td>
+        <td width="20"><input type="text" size="5" value="Минимум" readonly></td>
+        <td width="20"><input type="text" size="5" value="Максимум" readonly></td>
+        <td width="20"><input type="text" size="5" value="Под заказ" readonly></td>
+    </tr>
+
+
+
+
+
+
+
+    <tr>
+        <input type="text" value="" name="form_save" id="qweqwe">        
+        <input type="text" size="10" value={{Belonging_equipment.id}}  name="Belonging_equipment_id_edit">  
+        <input type="text" size="10" value={{Belonging_equipment.belonging_equipment_key_spareparts.id}}   name="belonging_equipment_key_spareparts_id_edit">
+        <input type="text" size="10" value={{Belonging_equipment.belonging_equipment_key_equipment.id}}   name="belonging_equipment_key_equipment_id_edit">
+
+        <td>
+            <select class="filter" name="filter_specialty" onchange="submit();" >
+                
+                {% for Equipment in list_specialty %}
+                    {% if case_specialty == Equipment.specialty %} 
+                        
+                        <option selected value="{{Equipment.specialty}}">{{Equipment.specialty}} </option>
+                    {% else %}
+                        
+                        <option value="{{Equipment.specialty}}">{{Equipment.specialty}} </option>                         
+                    {% endif %}                    
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select class="filter" name="filter_work_process" onchange="submit();">
+                
+
+                {% for Equipment in list_work_process %}
+                    {% if case_work_process == Equipment.work_process %} 
+                        
+                        <option selected value="{{Equipment.work_process}}">{{Equipment.work_process}}</option>
+                    {% else %}
+                    
+                        <option value="{{Equipment.work_process}}">{{Equipment.work_process}}</option>                         
+                    {% endif %}                    
+                {% endfor %}       
+            </select>
+        </td>
+        <td>
+            <select class="filter" name="filter_model_equipment" onchange="submit();">
+                
+                {% for Equipment in list_model_equipment %}
+                    {% if case_model_equipment == Equipment.model_equipment %} 
+                        <option selected value="{{Equipment.model_equipment}}">{{Equipment.model_equipment}} </option>
+                    {% else %}
+                        <option value="{{Equipment.model_equipment}}">{{Equipment.model_equipment}} </option>
+                    {% endif %}                    
+                {% endfor %}       
+            </select>
+        </td>
+        <td>
+            <select class="filter" name="filter_node_equipment" onchange="submit();">
+
+                
+                {% for Equipment in list_node_equipment %}
+                    {% if case_node_equipment == Equipment.node_equipment %} 
+                        <option selected value="{{Equipment.node_equipment}}">{{Equipment.node_equipment}} </option>
+                    {% else %}
+                        <option value="{{Equipment.node_equipment}}">{{Equipment.node_equipment}} </option>
+                    {% endif %}  
+                             
+                {% endfor %}       
+            </select>            
+        </td>
+        <td><input type="text" size="10" value="{{spare_part_name_edit}}"  name="spare_part_name_edit"></td>
+        <td><input type="text" size="10" value="{{type_part_edit}}" name="type_part_edit"></td>
+        <td><input type="text" size="10" value="{{manufacturer_edit}}"  name="manufacturer_edit"></td>
+        <td><input type="text" size="10" value="{{criticality_edit}}" name="criticality_edit"></td>
+        <td><input type="text" size="10" value="{{sap_Code1_edit}}"  name="sap_Code1_edit"></td>
+        <td><input type="text" size="10" value="{{sap_Code2_edit}}"  name="sap_Code2_edit"></td>
+        <td><input type="text" size="10" value="{{sap_analog_edit}}"  name="sap_analog_edit"></td>
+        <td><input type="text" size="5" value="{{min_count_edit}}"  name="min_count_edit"></td>
+        <td><input type="text" size="5" value="{{max_count_edit}}"  name="max_count_edit"></td>
+        <td><input type="text" size="5" value="{{for_order_edit}}"  name="for_order_edit"></td>
+        <td><input type="text" size="5" value="{{0}}"  name="savedata" id=savedata></td>
+
+	
+    </tr>
+
+
+
+</table>
+
+
+    
+<br>
+{{list_node_equipment}}
+
+
+
+
+
+
+
+
+<br>
+<button type="button" id="BtnEdit" onclick="FormSave();" value="Outset Border" style="border-style:outset;">Edit</button>
+<button type="submit" id="BtnSave" value="Outset Border" style="border-style:outset;">Save</button>
+<button id="BtnExport" onclick="FormEditable(id);" value="Outset Border" style="border-style:outset;">Export to excel</button>
+<br>
+
+
+</form>
+<script language="javascript" type="text/javascript">
+
+function FormSave() {
+    document.getElementById('savedata').value = "1";
+    document.getElementById('myformmm').submit()
+    
+}
+
+
+
+
+ function ShowID(dataaa, ddaa) {
+    alert(dataaa +"   " + ddaa);         // body...
+    document.getElementById(ddaa).removeAttribute('readonly');
+    var val = document.getElementById(ddaa).value;
+    alert(val);
+}
+
+function FormEditable(BtnID){
+    //alert(BtnID);  
+    if(document.getElementById(BtnID).value == 'Intset Border'){
+      //  alert(document.getElementById('BtnEdit').style); 
+        document.getElementById(BtnID).value = 'Outset Border';
+        document.getElementById(BtnID).style = 'border-style:outset;';
+
+    }
+    else {
+     //   alert(document.getElementById('BtnEdit').style); 
+        document.getElementById(BtnID).value = 'Intset Border';
+        document.getElementById(BtnID).style = 'border-style:inset;';
+    }
+}
+
+</script>
+
+<div id="FormSaveData-results"></div>
+
+</body>
+</html>

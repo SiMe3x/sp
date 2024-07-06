@@ -1,0 +1,85 @@
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+<h1 align="center">Запчасть установлена на оборудовании</h1>
+
+<table border="1" width="100%" table-layout= "fixed">
+    <thead>
+        <tr align="center" bgcolor="#D3D3D3">
+            <td class="col20">Наименование</td>
+            <td class="col20">Тип</td>
+            <td class="col20">Производитель</td>            
+            <td class="col8">SAP код 1</td>
+            <td class="col8">SAP код 2</td>
+            <td class="col8">SAP код аналог</td>
+            <td class="col4">Критичность</td>
+            <td class="col4">Мин</td>
+            <td class="col4">Макс</td>
+            <td class="col4">В наличии</td>
+            <td class="col4"><h6>Минимум проверен</h6></td>
+            <td class="col4" ><h6>Необходимо заказать</h6></td>
+            
+        </tr>
+        <tr align="center" bgcolor="#D3D3D3">       
+
+
+            <td>{{spare_part.spare_part_name}}</td>
+            <td>{{spare_part.type_part}}</td>
+            <td>{{spare_part.manufacturer}}</td>        
+            <td>{{spare_part.sap_Code1}}</td>
+            <td>{{spare_part.sap_Code2}} </td>
+            <td>{{spare_part.sap_analog}}</td>
+            <td>{{spare_part.criticality}}</td>
+            <td>{{spare_part.min_count}}</td>   
+            <td>{{spare_part.max_count}}</td>  
+            <td>{{spare_part.sap_count_total}}</td>  
+            <td>{{spare_part.checked_count}}</td>  
+            <td>{{spare_part.for_order}}</td>  
+    
+        </tr>
+    </thead>
+</table>
+
+
+<table border="1" width="100%" table-layout= "fixed">
+    <tr align="center">
+        <td class="col8">Специальность</td>
+        <td class="col8">Процесс</td>
+        <td class="col8">Модель</td>
+        <td class="col8">Узел</td>
+        <td class="col4">Критичность</td>
+        <td class="col4">Мин</td>
+        <td class="col4">Макс</td>
+    </tr>
+{% for Belonging_equipment in list_spare_parts %}
+    
+    {% csrf_token %}
+    <tbody>
+    <tr>
+        <form action="{% url 'spdetail' %}" method="POST" name=form_save{{Spare_part.id}} target="_blank">
+        <td>{{Belonging_equipment.belonging_equipment_key_equipment.specialty}}</td>
+        <td>{{Belonging_equipment.belonging_equipment_key_equipment.work_process}}</td>
+        <td>{{Belonging_equipment.belonging_equipment_key_equipment.model_equipment}}</td>
+        <td>{{Belonging_equipment.belonging_equipment_key_equipment.node_equipment}}</td>
+        <td>{{Belonging_equipment.criticality}}</td>
+        <td>{{Belonging_equipment.min_count}}</td>
+        <td>{{Belonging_equipment.max_count}}</td>
+        
+ 
+
+        
+        </form>
+    </tr>
+    </tbody>
+    
+
+{% endfor %}
+
+
+
+
+</table>
+
+
+
+
+ {% endblock %}

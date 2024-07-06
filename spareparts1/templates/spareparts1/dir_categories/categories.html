@@ -1,0 +1,42 @@
+
+
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+
+
+<h1 align="center">Категории оборудования</h1>
+<table>
+    
+    <thead>
+        <tr align="center">
+            <td class="testtt">##</td>
+            <td class="col14">Special</td>
+            <td class="col14">Процесс</td>
+            <td class="col14">Модель</td>         
+            <td class="col14">Заданое значение</td>
+            <td class="col14">Расчетное значение</td>
+        </tr>
+    </thead>
+    
+    {% for Equipment in a %} 
+        
+        <tr>
+            <td class="testtt">{{forloop.counter}}</td>
+            <td class="col14">{{Equipment.specialty}}</td>
+            <td class="col14">{{Equipment.work_process}}</td>
+            <td class="col14">{{Equipment.model_equipment}}</td>
+            <td class="col14">{{Equipment.category}}</td>
+            
+        </tr>
+    {%endfor%}
+
+
+
+
+
+
+</table>
+
+
+
+ {% endblock %}

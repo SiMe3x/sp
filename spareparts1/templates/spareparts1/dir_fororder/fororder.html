@@ -1,0 +1,96 @@
+
+
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+
+
+<h1 align="center">Нужно заказать</h1>
+<table>
+    
+    <thead>
+        <tr align="center">
+            <td class="col14">Наименование</td>
+            <td class="col14">Тип</td>
+            <td class="col14">Производитель</td>
+            
+            <td class="col14">SAP код 1</td>
+            <td class="col14">SAP код 2</td>
+            <td class="col14">SAP код аналог</td>
+            <td class="col4">Критичность</td>
+            <td class="col4">Мин</td>
+            <td class="col4">Макс</td>
+            <td class="col4">В наличии</td>
+            <td class="col4">Минимум<br>проверен</td>
+            <td class="col4">Необходимо<br>заказать</td>
+            
+            
+            
+        </tr>
+        <tr align="center">       
+                <td><input type="search" id="spare_part_name_post" name="spare_part_name_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="type_part_post" name="type_part_post"  onkeyup="findtest();"></td>
+                <td><input type="search" id="manufacturer_post" name="manufacturer_post"  class="search" onkeyup="findtest();"></td>       
+                
+                <td><input type="search" id="sap_Code1_post" name="sap_Code1_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="sap_Code2_post" name="sap_Code2_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="sap_analog_post" name="sap_analog_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="criticality_post" name="criticality_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="min_count_post" name="min_count_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="max_count_post" name="max_count_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="min_count_post" name="min_count_post" onkeyup="findtest();"></td>
+
+                <td><input type="search" id="min_count_post" name="min_count_post" onkeyup="findtest();"></td>
+                <td><input type="search" id="max_count_post" name="max_count_post" onkeyup="findtest();"></td>
+                
+        </tr>
+    </thead>
+
+
+
+
+ 
+{% for Spare_part in fororder %}
+    <form action="{% url 'beedit' %}" method="POST" name=form_save{{Spare_part.id}}>
+    {% csrf_token %}
+    <tr>
+        <input type="text" value="{{Belonging_equipment.id}}"  name="Belonging_equipment_id_edit" hidden>  
+        <input type="text" value="{{Belonging_equipment.belonging_equipment_key_spareparts.id}}"   name="belonging_equipment_key_spareparts_id_edit" hidden>
+        <input type="text" value="{{Belonging_equipment.belonging_equipment_key_equipment.id}}"   name="belonging_equipment_key_equipment_id_edit" hidden>      
+        <input type="text" value="0" readonly id="btn_action"  name="btn_action" hidden> 
+        <td><input type="text" value="{{Spare_part.spare_part_name}}" readonly id="{{Spare_part.id}}" name="spare_part_name_edit"></td>
+        <td><input type="text" value="{{Spare_part.type_part}}" id="{{Spare_part.id}}" name="type_part_edit"></td>
+        <td><input type="text" value="{{Spare_part.manufacturer}}" readonly id="{{Spare_part.id}}" onclick="alert(value);" name="manufacturer_edit"></td>
+        
+        <td><input type="text" value="{{Spare_part.sap_Code1}}" readonly id="{{Spare_part.id}}" name="sap_Code1_edit"></td>
+        <td><input type="text" value="{{Spare_part.sap_Code2}}" readonly id="{{Spare_part.id}}" name="sap_Code2_edit"></td>
+        <td><input type="text" value="{{Spare_part.sap_analog}}" readonly id="{{Spare_part.id}}" name="sap_analog_edit"></td>
+        <td><input type="text" value="{{Spare_part.criticality}}" readonly id="{{Spare_part.id}}" onclick="ShowID({{Spare_part.id}});" name="criticality_edit"  style="text-align: center;"></td>
+        <td><input type="text" value="{{Spare_part.min_count}}" readonly id="{{Spare_part.id}}" name="for_order_edit" style="text-align: center;"></td>   
+        <td><input type="text" value="{{Spare_part.max_count}}" readonly id="{{Spare_part.id}}" name="for_order_edit" style="text-align: center;"></td>  
+        <td><input type="text" value="{{Spare_part.sap_count_total}}" readonly id="{{Spare_part.id}}" name="for_order_edit" style="text-align: center;"></td>  
+        {% if Spare_part.checked_count %}  
+            <td style="background-color: #25C436" style="text-align: center;">V</td>   
+        {% else %} 
+            <td style="background-color: #E10D0D" style="text-align: center;">X</td>             
+        {% endif %} 
+        {% if Spare_part.for_order %}
+            <td style="background-color: #E10D0D" style="text-align: center;">{{Spare_part.for_order}}</td>             
+        {% else %} 
+            <td style="background-color: #FFFFFF" style="text-align: center;">{{Spare_part.for_order}}</td>             
+        {% endif %} 
+          
+
+    </tr>
+
+    </form>
+
+{% endfor %}
+
+
+
+
+</table>
+
+
+
+ {% endblock %}

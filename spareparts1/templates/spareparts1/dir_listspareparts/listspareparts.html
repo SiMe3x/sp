@@ -1,0 +1,157 @@
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+ {% csrf_token %}
+
+<input type="search" id="spare_part_name_post1" name="spare_part_name_post" hidden>
+<input type="search" id="type_part_post1" name="type_part_post"  hidden>
+<input type="search" id="manufacturer_post1" name="manufacturer_post" hidden>
+<input type="search" id="sap_Code1_post1" name="sap_Code1_post" hidden>
+
+<input type="search" id="sap_Code2_post1" name="sap_Code2_post" hidden>
+<input type="search" id="sap_analog_post1" name="sap_analog_post" hidden>
+<input type="search" id="delivery_time_post1" name="delivery_time_post" hidden>
+<input type="search" id="criticality_post1" name="criticality_post" hidden>
+<input type="search" id="min_count_post1" name="min_count_post1" hidden>
+
+<input type="search" id="max_count_post1" name="max_count_post" hidden>
+<input type="search" id="sap_count_total_post1" name="sap_count_tota_postl" hidden>
+<input type="search" id="checked_count_post1" name="checked_count_post1" value="1" hidden>
+<input type="checkbox" id="for_order_post1" name="for_order_post1" hidden>
+
+
+<h1 align="center">Список запчастей</h1>
+{% if active_user_permis > 9 %}
+<h4 align="=left"><a href="/spareparts1/listspareparts/add">добавить запчасть</a><h4>
+{% endif %}
+<div id="listsparepartsdata"></div>
+
+
+
+
+
+<script language="javascript" type="text/javascript">
+var btn_action = 5, active_edit=0;
+var lastfocus='type_part_post';
+
+$.ajax({
+    type: "POST",
+    url: "listsparepartsdata/",
+    data: {
+        'spare_part_name_post' : null,
+        'type_part_post' : null,
+        'manufacturer_post' : null,
+        'sap_Code1_post' : null,
+
+        'sap_Code2_post' : null,
+        'sap_analog_post' : null,
+        'delivery_time_post' : null,
+        'criticality_post' : null,
+        'min_count_post' : null,
+
+        'max_count_post' : null,
+        'sap_count_total_post' : null,
+        'checked_count_post' : 1,
+        'for_order_post' : false,
+
+
+
+        'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+    },
+    success: ListSparepartsDataSuccess,
+
+});
+
+function FormEditing(BelongingEquipmentID) {
+    document.getElementById('qweqwe').value=BelongingEquipmentID
+
+    //alert(BelongingEquipmentID )
+}
+
+
+
+function findtest(id) {
+    lastfocus=id;
+    
+    var date = new Date();
+    initial_time = date.getTime();
+    if (typeof setInverval_Variable == 'undefined') {
+            setInverval_Variable = setInterval(DelayedSubmission_Check, 50);
+    } 
+}
+function DelayedSubmission_Check() {
+    var date = new Date();   
+    check_time = date.getTime();
+    var limit_ms=check_time-initial_time;
+    if (limit_ms > 500) { //Change value in milliseconds
+                
+        document.getElementById('spare_part_name_post1').value=document.getElementById('spare_part_name_post').value;
+        document.getElementById('type_part_post1').value=document.getElementById('type_part_post').value;
+        document.getElementById('manufacturer_post1').value=document.getElementById('manufacturer_post').value;
+        document.getElementById('sap_Code1_post1').value=document.getElementById('sap_Code1_post').value;
+
+        document.getElementById('sap_Code2_post1').value=document.getElementById('sap_Code2_post').value;
+        document.getElementById('sap_analog_post1').value=document.getElementById('sap_analog_post').value;
+        document.getElementById('delivery_time_post1').value=document.getElementById('delivery_time_post').value;
+        document.getElementById('criticality_post1').value=document.getElementById('criticality_post').value;
+        document.getElementById('min_count_post1').value=document.getElementById('min_count_post').value;
+
+        document.getElementById('max_count_post1').value=document.getElementById('max_count_post').value;
+        document.getElementById('sap_count_total_post1').value=document.getElementById('sap_count_total_post').value;
+        document.getElementById('checked_count_post1').value=document.getElementById('checked_count_post').value;
+        document.getElementById('for_order_post1').checked=document.getElementById('for_order_post').checked;
+
+        
+        $.ajax({
+            type: "POST",
+            url: "listsparepartsdata/",
+            data: {
+                'spare_part_name_post' : $('#spare_part_name_post').val(),
+                'type_part_post' : $('#type_part_post').val(),
+                'manufacturer_post' : $('#manufacturer_post').val(),
+                'sap_Code1_post' : $('#sap_Code1_post').val(),
+
+                'sap_Code2_post' : $('#sap_Code2_post').val(),
+                'sap_analog_post' : $('#sap_analog_post').val(),
+                'delivery_time_post' : $('#delivery_time_post').val(),
+                'criticality_post' : $('#criticality_post').val(),
+                'min_count_post' : $('#min_count_post').val(),
+
+                'max_count_post' : $('#max_count_post').val(), 
+                'sap_count_total_post' : $('#sap_count_total_post').val(), 
+                'checked_count_post' : $('#checked_count_post').val(), 
+                'for_order_post' : $('#for_order_post').is(":checked") ? true : false, 
+                
+
+                
+                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: ListSparepartsDataSuccess,
+
+        });        
+        clearInterval(setInverval_Variable);
+        delete setInverval_Variable;        
+    }
+}
+
+
+
+
+
+
+
+function ListSparepartsDataSuccess(data, textStatus, jqXHR)
+{
+    $('#listsparepartsdata').html(data)
+    
+    document.getElementById(lastfocus).focus();
+    
+}
+
+
+
+
+
+
+</script>
+
+ {% endblock %}

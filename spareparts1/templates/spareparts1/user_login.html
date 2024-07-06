@@ -1,0 +1,33 @@
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+
+ <form id="UserLogin" action="{% url 'user_login' %}" method="POST" name="UserLogin">
+    {% csrf_token %}    
+    {% if request.user.is_authenticated %}
+        Ваше имя пользователя <b>{{ user.get_username }}</b></br>
+        Вы являетесь участником групп </br>
+        {% for group in user.groups.all %}
+             <b>{{group.name}}</b></br>
+        {% endfor %}
+        <input type="text" width="300px" placeholder="Enter Username" name="username" hidden>
+        <input type="password" placeholder="Enter Password" name="password" hidden>
+        <button type="submit">Logout</button>
+    {% else %}
+        <br>
+        <label for="uname"><b>Username</b></label>
+        <input type="text" style="width:300px;" placeholder="Enter Username" name="username" required></br>
+        <label for="psw"><b>Password</b></label>
+        <input type="password" style="width:300px;" placeholder="Enter Password" name="password" required></br>
+        <button type="submit">Login</button>
+        {{user.username}}
+    {% endif %}
+
+</form>
+        {% for group in user.groups.all %}
+            {%if group.name == 'Tech'%}
+
+            {% endif %}
+        {% endfor %}
+
+
+ {% endblock %}

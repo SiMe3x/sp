@@ -1,0 +1,294 @@
+<table border="1" width="100%" table-layout= "fixed">
+    <thead>
+        <tr align="center">
+            <td class="col30">Наименование</td>
+            <td class="col30">Тип</td>
+            <td class="col30">Производитель</td>            
+            <td class="col8">SAP код 1</td>
+
+            <td class="col8">SAP код 2</td>
+            <td class="col8">SAP код аналог</td>
+            <td class="col8">Срок поставки</td>
+            <td class="col4">Критичность</td>
+            <td class="col2">Мин</td>
+
+            <td class="col4">Макс</td>
+            <td class="col4">В наличии</td>
+            <td class="col4">Минимум<br>проверен</td>
+            <td class="col4" >Необходимо<br>заказать</td>
+
+            <td class="col14">Действие</td>
+        </tr>
+        <tr align="center">       
+                <td><input type="search" id="spare_part_name_post" name="spare_part_name_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" id="type_part_post" name="type_part_post"  onkeyup="findtest(id);"></td>
+                <td><input type="search" id="manufacturer_post" name="manufacturer_post"  class="search" onkeyup="findtest(id);"></td>                 
+                <td><input type="search" id="sap_Code1_post" name="sap_Code1_post" onkeyup="findtest(id);"></td>
+
+                <td><input type="search" id="sap_Code2_post" name="sap_Code2_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" id="sap_analog_post" name="sap_analog_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" id="delivery_time_post" name="delivery_time_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" id="criticality_post" name="criticality_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" id="min_count_post" name="min_count_post" onkeyup="findtest(id);"></td>
+
+                <td><input type="search" id="max_count_post" name="max_count_post" onkeyup="findtest(id);"></td>
+                <td><input type="search" id="sap_count_total_post" name="sap_count_total_post" onkeyup="findtest(id);"></td>
+                <td><select size="1" id="checked_count_post" name="checked_count_post" onchange="findtest(id);">
+                        <option value="1"> </option>
+                        <option value="2">X</option>
+                        <option value="3">V</option>
+                </select></td>                
+                <td><input type="checkbox" id="for_order_post" name="for_order_post" onchange="findtest(id);" checked></td>
+
+                <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for Spare_part in list_spare_part %}
+            <tr id="{{Spare_part.id}}tr">    
+                    
+                    <td><div id="{{Spare_part.id}}spare_part_name">{{Spare_part.spare_part_name}}</div></td>
+                    <td><div id="{{Spare_part.id}}type_part">{{Spare_part.type_part}}</div></td>
+                    <td><div id="{{Spare_part.id}}manufacturer">{{Spare_part.manufacturer}}</div></td>            
+                    <td><div id="{{Spare_part.id}}sap_Code1">{{Spare_part.sap_Code1}}</div></td>
+
+                    <td><div id="{{Spare_part.id}}sap_Code2">{{Spare_part.sap_Code2}}</div></td>
+                    <td><div id="{{Spare_part.id}}sap_analog">{{Spare_part.sap_analog}}</div></td>
+                    <td>
+                        {% if Spare_part.delivery_time <= 1 %}
+                            <div id="{{Spare_part.id}}delivery_time">до дня</div>
+                        {% elif Spare_part.delivery_time > 1 and Spare_part.delivery_time <= 7 %}
+                            <div id="{{Spare_part.id}}delivery_time">до недели</div>
+                        {% elif Spare_part.delivery_time > 7 and Spare_part.delivery_time < 30 %}
+                            <div id="{{Spare_part.id}}delivery_time">до месяца</div>
+                        {% else %}
+                            <div id="{{Spare_part.id}}delivery_time">более месяца</div>
+                        {% endif %}
+                    </td>
+                    <td><div id="{{Spare_part.id}}criticality">{{Spare_part.criticality}}</div></td>
+
+                    <td><div id="{{Spare_part.id}}min_count">{{Spare_part.min_count}}</div></td>   
+                    <td><div id="{{Spare_part.id}}max_count">{{Spare_part.max_count}}</div></td>  
+                    <td><div id="{{Spare_part.id}}sap_count_total">{{Spare_part.sap_count_total}}</div></td>  
+                    {% if Spare_part.checked_count %}  
+                        <td style="background-color: #25C436" >V</td>   
+                    {% else %} 
+                        <td style="background-color: #E10D0D" >X</td>             
+                    {% endif %} 
+                    {% if Spare_part.for_order %}
+                        <td style="background-color: #E10D0D" >{{Spare_part.for_order}}</td>             
+                    {% else %} 
+                        <td >{{Spare_part.for_order}}</td>             
+                    {% endif %} 
+                    <td><form action="{% url 'spdetail' %}" method="POST" name="aaa{{Spare_part.id}}" target="blank" >
+                        {% csrf_token %}
+                        <input type="text" value="{{Spare_part.id}}"  name="Spare_part.id" hidden>
+                        {% if active_user_permis > 9 %}
+                            <button type="button" name="tosave" onclick="EditSparePart(id)"; id="{{Spare_part.id}}">Edit</button>
+                        {% endif %}
+                        <button type="submit" name="det">details</button>
+                        </form>
+                    </td>
+                    
+
+
+            </tr>
+
+            
+
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+<script type="text/javascript">
+
+/.чтобы не сбрасывались значения при живом вводе./
+document.getElementById('spare_part_name_post').value=document.getElementById('spare_part_name_post1').value;
+document.getElementById('type_part_post').value=document.getElementById('type_part_post1').value;
+document.getElementById('manufacturer_post').value=document.getElementById('manufacturer_post1').value;
+document.getElementById('sap_Code1_post').value=document.getElementById('sap_Code1_post1').value;
+
+document.getElementById('sap_Code2_post').value=document.getElementById('sap_Code2_post1').value;
+document.getElementById('sap_analog_post').value=document.getElementById('sap_analog_post1').value;
+document.getElementById('delivery_time_post').value=document.getElementById('delivery_time_post1').value;
+document.getElementById('criticality_post').value=document.getElementById('criticality_post1').value;
+document.getElementById('min_count_post').value=document.getElementById('min_count_post1').value;
+
+document.getElementById('max_count_post').value=document.getElementById('max_count_post1').value;
+document.getElementById('sap_count_total_post').value=document.getElementById('sap_count_total_post1').value;
+document.getElementById('checked_count_post').value=document.getElementById('checked_count_post1').value;
+document.getElementById('for_order_post').checked=document.getElementById('for_order_post1').checked;
+
+
+var a=a0=a1=a2=a3=a4=a5=a6=a7=b=b0=b1=b2=b3=b4=b5=b6=b7=0;
+var savediscard=false;
+
+function EditSparePart(a){
+
+    if (a0==0){
+        a0=a;
+        
+        document.getElementById(a+'tr').style.backgroundColor = '#fcfcc7';
+
+        document.getElementById(a+'spare_part_name').contentEditable = 'true';
+        document.getElementById(a+'type_part').contentEditable = 'true';
+        document.getElementById(a+'manufacturer').contentEditable = 'true';
+        document.getElementById(a+'sap_Code1').contentEditable = 'true';
+
+        document.getElementById(a+'sap_Code2').contentEditable = 'true';
+        document.getElementById(a+'sap_analog').contentEditable = 'true';
+        document.getElementById(a+'delivery_time').contentEditable = 'true';
+        document.getElementById(a).innerText="Save";
+
+        a1=document.getElementById(a+'spare_part_name').innerHTML;
+        a2=document.getElementById(a+'type_part').innerHTML;
+        a3=document.getElementById(a+'manufacturer').innerHTML;
+        a4=document.getElementById(a+'sap_Code1').innerHTML;
+
+        a5=document.getElementById(a+'sap_Code2').innerHTML;
+        a6=document.getElementById(a+'sap_analog').innerHTML;
+        a7=document.getElementById(a+'delivery_time').innerHTML;
+
+        b0=a;
+        savediscard=false;  
+        
+        
+    }else if (a0==a){
+        
+
+        document.getElementById(a+'spare_part_name').contentEditable = 'false';
+        document.getElementById(a+'type_part').contentEditable = 'false';
+        document.getElementById(a+'manufacturer').contentEditable = 'false';
+        document.getElementById(a+'sap_Code1').contentEditable = 'false';
+
+        document.getElementById(a+'sap_Code2').contentEditable = 'false';
+        document.getElementById(a+'sap_analog').contentEditable = 'false';
+        document.getElementById(a+'delivery_time').contentEditable = 'false';
+        document.getElementById(a).innerText="Edit";
+
+        b1=document.getElementById(a+'spare_part_name').innerHTML;
+        b2=document.getElementById(a+'type_part').innerHTML;
+        b3=document.getElementById(a+'manufacturer').innerHTML;
+        b4=document.getElementById(a+'sap_Code1').innerHTML;
+
+        b5=document.getElementById(a+'sap_Code2').innerHTML;
+        b6=document.getElementById(a+'sap_analog').innerHTML;
+        b7=document.getElementById(a+'delivery_time').innerHTML;
+
+        a0=0;       
+        savediscard=true;
+         
+    }else{        
+        var b=confirm("Сохранить изменения" + a0+a1+a2+a3+a4+a5+a6);        
+        if (b){
+            document.getElementById(a+'tr').style.backgroundColor = '#fcfcc7';
+            
+            document.getElementById(a0+'spare_part_name').contentEditable = 'false';
+            document.getElementById(a0+'type_part').contentEditable = 'false';
+            document.getElementById(a0+'manufacturer').contentEditable = 'false';
+            document.getElementById(a0+'sap_Code1').contentEditable = 'false';
+
+            document.getElementById(a0+'sap_Code2').contentEditable = 'false';
+            document.getElementById(a0+'sap_analog').contentEditable = 'false';
+            document.getElementById(a0+'delivery_time').contentEditable = 'false';
+            document.getElementById(a0).innerText="Edit";
+
+            document.getElementById(a+'spare_part_name').contentEditable = 'true';
+            document.getElementById(a+'type_part').contentEditable = 'true';
+            document.getElementById(a+'manufacturer').contentEditable = 'true';
+            document.getElementById(a+'sap_Code1').contentEditable = 'true';
+
+            document.getElementById(a+'sap_Code2').contentEditable = 'true';
+            document.getElementById(a+'sap_analog').contentEditable = 'true';
+            document.getElementById(a+'delivery_time').contentEditable = 'true';
+            document.getElementById(a).innerText="Save";
+
+            b1=document.getElementById(a0+'spare_part_name').innerHTML;
+            b2=document.getElementById(a0+'type_part').innerHTML;
+            b3=document.getElementById(a0+'manufacturer').innerHTML;
+            b4=document.getElementById(a0+'sap_Code1').innerHTML;
+
+            b5=document.getElementById(a0+'sap_Code2').innerHTML;
+            b6=document.getElementById(a0+'sap_analog').innerHTML;
+            b7=document.getElementById(a0+'delivery_time').innerHTML;
+
+            a0=a;       
+            savediscard=true;
+            
+        }else{
+            document.getElementById(a+'tr').style.backgroundColor = '#fcfcc7';
+
+            document.getElementById(a0+'spare_part_name').value=a1;
+            document.getElementById(a0+'type_part').value=a2;
+            document.getElementById(a0+'manufacturer').value=a3;
+            document.getElementById(a0+'sap_Code1').value=a4;
+
+            document.getElementById(a0+'sap_Code2').value=a5;
+            document.getElementById(a0+'sap_analog').value=a6;
+            document.getElementById(a0+'delivery_time').value=a7;
+            document.getElementById(a0+'spare_part_name').contentEditable = 'false';
+
+            document.getElementById(a0+'type_part').contentEditable = 'false';
+            document.getElementById(a0+'manufacturer').contentEditable = 'false';
+            document.getElementById(a0+'sap_Code1').contentEditable = 'false';
+            document.getElementById(a0+'sap_Code2').contentEditable = 'false';
+
+            document.getElementById(a0+'sap_analog').contentEditable = 'false';
+            document.getElementById(a0+'delivery_time').contentEditable = 'false';
+            document.getElementById(a0).innerText="Edit";
+
+            document.getElementById(a+'spare_part_name').contentEditable = 'true';
+            document.getElementById(a+'type_part').contentEditable = 'true';
+            document.getElementById(a+'manufacturer').contentEditable = 'true';
+            document.getElementById(a+'sap_Code1').contentEditable = 'true';
+
+            document.getElementById(a+'sap_Code2').contentEditable = 'true';
+            document.getElementById(a+'sap_analog').contentEditable = 'true';
+            document.getElementById(a+'delivery_time').contentEditable = 'true';
+            document.getElementById(a).innerText="Save";
+
+            a1=document.getElementById(a+'spare_part_name').innerHTML;
+            a2=document.getElementById(a+'type_part').innerHTML;
+            a3=document.getElementById(a+'manufacturer').innerHTML;
+            a4=document.getElementById(a+'sap_Code1').innerHTML;
+
+            a5=document.getElementById(a+'sap_Code2').innerHTML;
+            a6=document.getElementById(a+'sap_analog').innerHTML;
+            a7=document.getElementById(a+'delivery_time').innerHTML;
+
+            a0=a;  
+            b0=a;                           
+            savediscard=false;
+            
+        }
+    }
+    if (savediscard==true){        
+        $.ajax({
+                type: "POST",
+                url: "add/",
+                data: {
+                    'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+                    'actionsp' : 'editsp',
+                    'spare_part_name_edit':b1,
+                    'type_part_post_edit':b2,
+                    'manufacturer_post_edit':b3,
+                    'sap_Code1_post_edit':b4,
+                    'sap_Code2_post_edit':b5,
+                    'sap_analog_post_edit':b6,
+                    'delivery_time_post_edit':b7,
+                    'id_post_edit':b0
+                },
+                success: AddingSparePart,
+            });
+        b0=a;
+    }
+}
+
+
+function AddingSparePart(data, textStatus, jqXHR){
+    $('#AddSparePartMenu').html(data)
+}
+
+</script>

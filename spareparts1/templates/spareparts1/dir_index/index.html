@@ -1,0 +1,41 @@
+{% extends 'headertemplate.html' %}
+{% block content %}
+<br>
+<h1 align="center">Поиск запасных частей</h1>
+   <p><br>
+        <form>
+            {% csrf_token %}
+				<script language="javascript" type="text/javascript">
+        			$.ajax({
+            		type: "POST",
+		            url: "findspareparts/",
+		            data: {		                
+		                'specialty_post' : null,
+		                'work_process_post' : null,
+		                'model_equipment_post' : null,
+		                'node_equipment_post' : null,
+		                'spare_part_name_post' : null,
+		                'type_part_post' : null,
+		                'manufacturer_post' : null,
+		                'criticality_post' : null,
+		                'sap_Code1_post' : null,
+		                'sap_Code2_post' : null,
+		                'sap_analog_post' : null,
+		                'min_count_post' : null,
+		                'max_count_post' : null,
+		                'for_order_post' : null,
+		                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+		            },
+		            success: FindSparePartsSearchSuccess,
+		            });
+
+                    function FindSparePartsSearchSuccess(data, textStatus, jqXHR)
+                    {
+                        $('#FindSparePartsSearch-results').html(data)
+                        document.getElementById('cell_post06').focus();
+                    }
+				</script>
+    	</form>
+<div id="FindSparePartsSearch-results"></div>
+<div id="FindResultSearch-results" border="1"> </div>
+ {% endblock %}

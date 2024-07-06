@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<table border="1" width="100%" table-layout= "fixed">
+    <tr align="center">
+
+        <td width="20"><input type="text" size="10" value="Наименование" readonly></td>
+        <td width="20"><input type="text" size="10" value="Тип" readonly></td>
+        <td width="20"><input type="text" size="10" value="Производитель" readonly></td>
+        <td width="20"><input type="text" size="10" value="Критичность" readonly></td>
+        <td width="20"><input type="text" size="10" value="SAP код 1" readonly></td>
+        <td width="20"><input type="text" size="10" value="SAP код 2" readonly></td>
+        <td width="20"><input type="text" size="10" value="SAP код аналог" readonly></td>
+        <td width="20"><input type="text" size="5" value="Минимум" readonly></td>
+        <td width="20"><input type="text" size="5" value="Максимум" readonly></td>
+        <td width="20"><input type="text" size="5" value="Под заказ" readonly></td>
+        <td width="20"><input type="text" size="5" value="кто создал" readonly></td>
+    </tr>
+    <tr align="center">       
+
+                       <td><input type="text" size="10" id="spare_part_name_add" name="spare_part_name_add"></td>
+            <td><input type="text" size="10" id="type_part_add" name="type_part_add" size="1"></td>
+            <td><input type="text" size="10" id="manufacturer_add" name="manufacturer_add" size="1"></td>       
+            <td><input type="text" size="10" id="criticality_add" name="criticality_add"></td>
+            <td><input type="text" size="10" id="sap_Code1_add" name="sap_Code1_add"></td>
+            <td><input type="text" size="10" id="sap_Code2_add" name="sap_Code2_add"></td>
+            <td><input type="text" size="10" id="sap_analog_add" name="sap_analog_add"></td>
+            <td><input type="text" size="10" id="min_count_add" name="min_count_add"></td>
+            <td><input type="text" size="10" id="max_count_add" name="max_count_add"></td>
+            <td><input type="text" size="10" id="for_order_add" name="for_order_add"></td>
+            <td><input type="search" size="1" id="who_creat_add" name="who_creat_add" onkeyup="findtest();"></td>
+
+    </tr>
+
+
+
+
+ 
+{% for Spare_part_add in for_moderate %}
+    <form action="{% url 'moderate' %}" method="POST" name={{for_moderate}} >
+    {% csrf_token %}
+    <tr>
+        <td><input type="text" size="10" value={{Spare_part_add.id}} readonly id="{{Spare_part_add.id}}" name="Spare_part_id_add"></td>        
+        <td><input type="text" size="10" value={{Spare_part_add.spare_part_name}} readonly id="{{Belonging_equipment.id}}" name="spare_part_name_add"></td>
+        <td><input type="text" size="10" value={{Spare_part_add.type_part}} id="{{Belonging_equipment.id}}" name="type_part_add"></td>
+        <td><input type="text" size="10" value={{Spare_part_add.manufacturer}} readonly id="{{Belonging_equipment.id}}" onclick="ShowID({{Belonging_equipment.id}});" name="manufacturer_add"></td>
+        <td><input type="text" size="10" value={{Spare_part_add.criticality}} readonly id="{{Belonging_equipment.id}}" onclick="ShowID({{Belonging_equipment.id}});" name="criticality_add"></td>
+        <td><input type="text" size="10" value={{Spare_part_add.sap_Code1}} readonly id="{{Belonging_equipment.id}}" name="sap_Code1_add"></td>
+        <td><input type="text" size="10" value={{Spare_part_add.sap_Code2}} readonly id="{{Belonging_equipment.id}}" name="sap_Code2_add"></td>
+        <td><input type="text" size="10" value={{Spare_part_add.sap_analog}} readonly id="{{Belonging_equipment.id}}" name="sap_analog_add"></td>
+        <td><input type="text" size="5" value={{Spare_part_add.min_count}} readonly id="{{Belonging_equipment.id}}" name="min_count_add"></td>
+        <td><input type="text" size="5" value={{Spare_part_add.max_count}} readonly id="{{Belonging_equipment.id}}" name="max_count_add"></td>
+        <td><input type="text" size="5" value={{Spare_part_add.for_order}} readonly id="{{Belonging_equipment.id}}" name="for_order_add"></td>	
+        <td><input type="text" size="5" value={{Spare_part_add.who_creat}} readonly id="{{Belonging_equipment.id}}" name="who_creat_add"></td> 
+        <td><button type="submit"width="5" id="BtnSave">Appruve</button></td>
+
+
+
+    </tr>
+    
+    </form>
+{% endfor %}
+<p>qwe111</p>   
+</table>
+
+</script>
+
+
+
+</body>
+</html>

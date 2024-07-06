@@ -1,0 +1,91 @@
+ {% extends 'headertemplate.html' %}
+ {% block content %}
+<h1 align="center">Список оборудования</h1>
+<h4 align="=left"><a href="{% url 'addequipment' %}">добавить оборудование</a><h4>
+  
+<h4>{{operation_status}}</h4>
+<form action="{% url 'listequipment' %}" method="POST" name="spare_part_add">
+    {% csrf_token %}
+
+<table border="1" width="100%" table-layout= "fixed">
+    <tr align="center">
+
+        <td width="10"><input type="text" size="10" value="Специальность" readonly></td>
+        <td width="10"><input type="text" size="10" value="Процесс" readonly></td>
+        <td width="10"><input type="text" size="10" value="Модель" readonly></td>
+        <td width="20"><input type="text" size="10" value="Узел" readonly></td>
+        
+
+    </tr>
+    <tr align="center">      
+       <td>
+            <select size="20"  name="filter_specialty" onchange="submit();" >
+                
+                {% for Equipment in list_specialty %}
+                    {% if case_specialty == Equipment.specialty %} 
+                        
+                        <option selected value="{{Equipment.specialty}}">{{Equipment.specialty}} </option>
+                    {% else %}
+                        
+                        <option value="{{Equipment.specialty}}">{{Equipment.specialty}} </option>                         
+                    {% endif %}                    
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select  size="20" name="filter_work_process" onchange="submit();">
+                
+
+                {% for Equipment in list_work_process %}
+                    {% if case_work_process == Equipment.work_process %} 
+                        
+                        <option selected value="{{Equipment.work_process}}">{{Equipment.work_process}}</option>
+                    {% else %}
+                    
+                        <option value="{{Equipment.work_process}}">{{Equipment.work_process}}</option>                         
+                    {% endif %}                    
+                {% endfor %}       
+            </select>
+        </td>
+        <td>
+            <select  size="20" name="filter_model_equipment" onchange="submit();">
+                
+                {% for Equipment in list_model_equipment %}
+                    {% if case_model_equipment == Equipment.model_equipment %} 
+                        <option selected value="{{Equipment.model_equipment}}">{{Equipment.model_equipment}} </option>
+                    {% else %}
+                        <option value="{{Equipment.model_equipment}}">{{Equipment.model_equipment}} </option>
+                    {% endif %}                    
+                {% endfor %}       
+            </select>
+        </td>
+        <td>
+            <select  size="20" name="filter_node_equipment" onchange="submit();">
+
+                
+                {% for Equipment in list_node_equipment %}
+                    {% if case_node_equipment == Equipment.node_equipment %} 
+                        <option selected value="{{Equipment.node_equipment}}">{{Equipment.node_equipment}} </option>
+                    {% else %}
+                        <option value="{{Equipment.node_equipment}}">{{Equipment.node_equipment}} </option>
+                    {% endif %}  
+                             
+                {% endfor %}       
+            </select>            
+        </td> 
+            
+
+
+
+    </tr>
+    <input type="text" size="10" id="who_creat_add" name="who_creat_add" value="{{ user.get_username }}" hidden>
+</table>
+<button type="submit">Send to moderate</button>
+</form>
+
+
+
+
+{{ user.get_username }}
+
+ {% endblock %}

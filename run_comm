@@ -1,0 +1,3 @@
+#!/bin/bash
+source /home/sime3x/sp/bin/activate
+/home/sime3x/sp/manage.py runserver 0.0.0.0:8000
